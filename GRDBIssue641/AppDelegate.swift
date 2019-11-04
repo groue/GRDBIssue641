@@ -16,9 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let databaseURL = try! FileManager.default
-            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            .appendingPathComponent("db.sqlite")
+        let sharedContainerUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.your.group.id")!
+        let databaseURL = sharedContainerUrl.appendingPathComponent("db.sqlite", isDirectory: false)
+//        let databaseURL = try! FileManager.default
+//            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//            .appendingPathComponent("db.sqlite")
         var config = Configuration()
         config.prepareDatabase = { db in
             try db.usePassphrase("secret")
